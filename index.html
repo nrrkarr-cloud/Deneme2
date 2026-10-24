@@ -27,7 +27,7 @@
             Alice'in İksir Kavanozları
         </h2>
         <p class="text-xs text-purple-200/80 mb-4 italic">
-            "Beni İç" veya "Beni Ye"... Doğru iksiri seç, sihrin kilidini aç!
+            Doğru iksiri seç, sihrin kilidini aç!
         </p>
 
         <!-- Soru Alanı -->
@@ -65,23 +65,33 @@
     <script>
         const sorular = [
             {
-                soru: "İngilizce'de 'White Rabbit' ne demek?",
-                secenekler: ["Beyaz Tavşan", "Uykulu Kedi", "Çılgın Şapkacı", "Mavi Tırtıl"],
+                soru: "İngilizce'de 'Gözler' ne demek?",
+                secenekler: ["eyes", "leg", "arm", "mouth"],
+                dogru: 0
+            },            
+            {
+                soru: "İngilizce'de 'leg' ne demek?",
+                secenekler: ["omuz", "ağız", "kulaklar", "bacak"],
                 dogru: 0
             },
             {
-                soru: "Alice küçülmek için ne içiyordu?",
-                secenekler: ["Sihirli Çay", "Beni İç İksiri", "Limonata", "Süt"],
+                soru: "İngilizce'de 'Burun' ne demek?",
+                secenekler: ["body", "ears", "nose", "foot"],
                 dogru: 1
             },
             {
-                soru: "Çılgın Şapkacı'nın en sevdiği etkinlik nedir?",
-                secenekler: ["Kroket oynamak", "Çay saati", "Resim yapmak", "Koşmak"],
+                soru: "İngilizce'de 'Ağız' ne demek?",
+                secenekler: ["shoulder", "hand", "neck", "head"],
                 dogru: 1
             },
             {
-                soru: "'Kafasını uçurun!' sözü kime aittir?",
-                secenekler: ["Beyaz Tavşan", "Kupa Kraliçesi", "Mavi Tırtıl", "Alice"],
+                soru: "Türkçe'de'shoulder' ne demek?",
+                secenekler: ["baş", "ayak", "omuz", "kol"],
+                dogru: 1
+            },
+            {
+                soru: "Türkçe'de'neck' ne demek?",
+                secenekler: ["omuz", "boyun", "burun", "bacak"],
                 dogru: 1
             }
         ];
