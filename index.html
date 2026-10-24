@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menesse'nin İksir Kavanozları - Kelime Quizi</title>
+    <!-- Tailwind CSS ile sihirli tasarım -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Quicksand:wght@500;700&display=swap');
+        .wonderland-font { font-family: 'Cinzel', serif; }
+        .body-font { font-family: 'Quicksand', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-950 text-white min-h-screen flex items-center justify-center p-4 body-font">
+
+    <!-- Sihirli Çerçeve Kutusu -->
+    <div class="max-w-md w-full bg-slate-900/90 border-2 border-purple-500/60 rounded-3xl p-6 shadow-2xl backdrop-blur-md text-center relative overflow-hidden">
+        
+        <!-- Üst Dekoratif İkon -->
+        <div class="absolute -top-10 left-1/2 transform -translate-x-1/2 text-4xl">
+            🧪✨
+        </div>
+
+        <!-- Başlık -->
+        <h2 class="wonderland-font text-xl sm:text-2xl text-purple-400 mt-2 mb-1">
+            Alice'in İksir Kavanozları
+        </h2>
+        <p class="text-xs text-purple-200/80 mb-4 italic">
+            "Beni İç" veya "Beni Ye"... Doğru iksiri seç, sihrin kilidini aç!
+        </p>
+
+        <!-- Soru Alanı -->
+        <div id="quiz-container" class="mb-6">
+            <div class="bg-slate-950/80 border border-purple-500/30 rounded-2xl p-4 mb-4">
+                <span id="question-number" class="text-xs text-purple-400 font-bold block mb-1">Soru 1 / 4</span>
+                <p id="question-text" class="text-sm sm:text-base font-bold text-slate-100">
+                    Yükleniyor...
+                </p>
+            </div>
+
+            <!-- Şıklar (İksir Kavanozları Butonları) -->
+            <div id="options-container" class="grid grid-cols-1 gap-2.5">
+                <!-- JavaScript ile doldurulacak -->
+            </div>
+        </div>
+
+        <!-- Sonuç ve Puan Alanı (Başlangıçta gizli) -->
+        <div id="result-container" class="hidden text-center py-4">
+            <div class="text-4xl mb-2">🎉🎩</div>
+            <h3 class="wonderland-font text-xl text-amber-400 font-bold mb-2">Tebrikler Menesse!</h3>
+            <p id="score-text" class="text-sm text-slate-300 mb-4">Harikalar Diyarı'nın tüm sırlarını çözdün!</p>
+            <button onclick="quiziYenidenBaslat()" class="py-2.5 px-5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold rounded-xl shadow-lg transition text-xs wonderland-font">
+                🔄 İksirleri Tazele
+            </button>
+        </div>
+
+        <!-- Tavşan / Kedi Mesaj Alanı -->
+        <p id="tavsanMesaji" class="text-xs text-purple-300/80 mt-2 min-h-[20px] transition-all italic">
+            "Merak cat'i öldürür derler ama burada öğrenmeni sağlar!"
+        </p>
+    </div>
+
+    <!-- JavaScript ile Quiz Mantığı -->
+    <script>
+        const sorular = [
+            {
+                soru: "İngilizce'de 'White Rabbit' ne demek?",
+                secenekler: ["Beyaz Tavşan", "Uykulu Kedi", "Çılgın Şapkacı", "Mavi Tırtıl"],
+                dogru: 0
+            },
+            {
+                soru: "Alice küçülmek için ne içiyordu?",
+                secenekler: ["Sihirli Çay", "Beni İç İksiri", "Limonata", "Süt"],
+                dogru: 1
+            },
+            {
+                soru: "Çılgın Şapkacı'nın en sevdiği etkinlik nedir?",
+                secenekler: ["Kroket oynamak", "Çay saati", "Resim yapmak", "Koşmak"],
+                dogru: 1
+            },
+            {
+                soru: "'Kafasını uçurun!' sözü kime aittir?",
+                secenekler: ["Beyaz Tavşan", "Kupa Kraliçesi", "Mavi Tırtıl", "Alice"],
+                dogru: 1
+            }
+        ];
+
+        let aktifSoruIndex = 0;
+        let puan = 0;
+
+        const questionText = document.getElementById("question-text");
+        const optionsContainer = document.getElementById("options-container");
+        const questionNumber = document.getElementById("question-number");
+        const quizContainer = document.getElementById("quiz-container");
+        const resultContainer = document.getElementById("result-container");
+        const scoreText = document.getElementById("score-text");
+        const tavsanMesaji = document.getElementById("tavsanMesaji");
+
+        function soruyuYukle() {
+            if (aktifSoruIndex < sorular.length) {
+                const s = sorular[aktifSoruIndex];
+                questionNumber.innerText = `Soru ${aktifSoruIndex + 1} / ${sorular.length}`;
+                questionText.innerText = s.soru;
+                optionsContainer.innerHTML = "";
+
+                s.secenekler.forEach((secenek, index) => {
+                    const btn = document.createElement("button");
+                    btn.className = "w-full py-2.5 px-4 bg-slate-950/60 hover:bg-purple-900/40 border border-purple-500/30 hover:border-purple-400 rounded-xl text-xs sm:text-sm text-left transition transform active:scale-95 text-slate-200 font-medium flex items-center justify-between";
+                    btn.innerHTML = `<span>🧪 ${secenek}</span> <span class='text-[10px] text-purple-400 uppercase tracking-widest'>Seç</span>`;
+                    btn.onclick = () => cevapSec(index);
+                    optionsContainer.appendChild(btn);
+                });
+            } else {
+                quizContainer.classList.add("hidden");
+                resultContainer.classList.remove("hidden");
+                scoreText.innerText = `Harika iş! ${sorular.soru ? sorular.length : 4} sorudan doğru cevaplarla Harikalar Diyarı'nı fethettin!`;
+                tavsanMesaji.innerText = "✨ Kraliçe bu başarına bayılacak!";
+            }
+        }
+
+        function cevapSec(secilenIndex) {
+            const s = sorular[aktifSoruIndex];
+            if (secilenIndex === s.dogru) {
+                puan++;
+                tavsanMesaji.innerText = "✨ Harika! Doğru iksiri seçtin, büyüyorsun!";
+                tavsanMesaji.style.color = "#4ade80";
+            } else {
+                tavsanMesaji.innerText = "🌀 Yanlış iksir! Biraz küçüldün ama tekrar deneyebilirsin.";
+                tavsanMesaji.style.color = "#f87171";
+            }
+
+            aktifSoruIndex++;
+            setTimeout(soruyuYukle, 800);
+        }
+
+        function quiziYenidenBaslat() {
+            aktifSoruIndex = 0;
+            puan = 0;
+            quizContainer.classList.remove("hidden");
+            resultContainer.classList.add("hidden");
+            tavsanMesaji.innerText = "Merak cat'i öldürür derler ama burada öğrenmeni sağlar!";
+            tavsanMesaji.style.color = "#c084fc";
+            soruyuYukle();
+        }
+
+        // İlk yükleme
+        soruyuYukle();
+    </script>
+</body>
+</html>
